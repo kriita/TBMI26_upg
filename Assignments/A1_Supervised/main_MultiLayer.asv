@@ -8,7 +8,7 @@ run setupSupervisedLab.m;
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 3; % Change this to load new data 
+dataSetNr = 1; % Change this to load new data 
 
 % X - Data samples
 % D - Desired output from classifier for each sample
@@ -50,9 +50,9 @@ XTest = [XTest ones( length(XTest),1)];
 %  Note: You need to modify trainMultiLayer() and runMultiLayer()
 %  in order to train the network
 
-numHidden     = 25;     % Change this, number of hidden neurons 
-numIterations = 40000;   % Change this, number of iterations (epochs)
-learningRate  = 0.0001; % Change this, your learning rate
+numHidden     = 14;     % Change this, number of hidden neurons 
+numIterations = 8000;   % Change this, number of iterations (epochs)
+learningRate  = 0.001; % Change this, your learning rate
 W0 = randn(size(XTrain,2), numHidden); % Initialize your weight matrix W
 V0 = randn(numHidden, size(DTrain,2)); % Initialize your weight matrix V
 
