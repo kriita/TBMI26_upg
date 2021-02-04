@@ -42,19 +42,17 @@ LTest  = LBins{4};
 
 % The training data
 XTrain = [XTrain ones( length(XTrain),1)];
-DTrain = [DTrain zeros(length(DTrain),1)];
 
 % The test data
 XTest = [XTest ones( length(XTest),1)];
-DTest = [DTest zeros(length(DTest),1)];
 
 %% Train your single layer network
 %  Note: You need to modify trainSingleLayer() and runSingleLayer()
 %  in order to train the network
 
-numIterations = 10000;  % Change this, number of iterations (epochs)
-learningRate  = 0.001; % Change this, your learning rate
-W0 = randn(1,3); % Change this, initialize your weight matrix W
+numIterations = 1500000;  % Change this, number of iterations (epochs)
+learningRate  = 0.0001; % Change this, your learning rate
+W0 = randn(size(XTrain,2),size(DTrain,2)); % Change this, initialize your weight matrix W
 
 % Run training loop
 tic;

@@ -26,8 +26,7 @@ ErrTest(1)  = sum(sum((YTest  - DTest ).^2)) / NTest;
 
 for n = 1:numIterations
     % dErr/dW = dErr/dY * dY/dW = 2(Y-D) * X
-    Y = Wout .* XTrain;
-    grad_w = 2 / NTrain * sum((Y - DTrain).*XTrain);
+    grad_w = 2 / NTrain * XTrain'*(YTrain - DTrain);
 
     % Take a learning step
     Wout = Wout - learningRate * grad_w;
