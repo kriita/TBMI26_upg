@@ -1,4 +1,8 @@
 %% This script will help you test out your kNN code
+clear
+close all
+
+run setupSupervisedLab.m
 
 %% Select which data to use:
 
@@ -7,7 +11,7 @@
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 1; % Change this to load new data 
+dataSetNr = 4; % Change this to load new data 
 
 % X - Data samples
 % D - Desired output from classifier for each sample
@@ -15,12 +19,12 @@ dataSetNr = 1; % Change this to load new data
 [X, D, L] = loadDataSet( dataSetNr );
 
 % You can plot and study dataset 1 to 3 by running:
-% plotCase(X,D)
+%  plotCase(X,D)
 
 %% Select a subset of the training samples
 
-numBins = 2;                    % Number of bins you want to devide your data into
-numSamplesPerLabelPerBin = 100; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
+numBins = 3;                    % Number of bins you want to devide your data into
+numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true;          % true = select samples at random, false = select the first features
 
 [XBins, DBins, LBins] = selectTrainingSamples(X, D, L, numSamplesPerLabelPerBin, numBins, selectAtRandom);
@@ -32,16 +36,16 @@ selectAtRandom = true;          % true = select samples at random, false = selec
 % XBinComb = combineBins(XBins, [1,2,3]);
 
 % Add your own code to setup data for training and test here
-% XTrain = ...
-% LTrain = ...
-% XTest  = ...
-% LTest  = ...
+XTrain = combineBins(XBins, [1,2]);
+LTrain = combineBins(LBins, [1, 2]);
+XTest  = XBins{3};
+LTest  = LBins{3};
 
 %% Use kNN to classify data
 %  Note: you have to modify the kNN() function yourself.
 
 % Set the number of neighbors
-k = 1;
+k = 4;
 
 % Classify training data
 LPredTrain = kNN(XTrain, k, XTrain, LTrain);
