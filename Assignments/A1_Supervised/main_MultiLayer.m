@@ -17,7 +17,7 @@ dataSetNr = 3; % Change this to load new data
 
 %% Select a subset of the training features
 
-numBins = 4;                    % Number of Bins you want to devide your data into
+numBins = 100;                    % Number of Bins you want to devide your data into
 numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true;          % true = select features at random, false = select the first features
 
@@ -30,12 +30,12 @@ selectAtRandom = true;          % true = select features at random, false = sele
 % XBinComb = combineBins(XBins, [1,2,3]);
 
 % Add your own code to setup data for training and test here
-XTrain = combineBins(XBins, [1,2,3]);
-DTrain = combineBins(DBins, [1,2,3]);
-LTrain = combineBins(LBins, [1,2,3]);
-XTest  = XBins{4};
-DTest  = DBins{4};
-LTest  = LBins{4};
+XTest = combineBins(XBins, 2:numBins);
+DTest = combineBins(DBins, 2:numBins);
+LTest = combineBins(LBins, 2:numBins);
+XTrain  = XBins{1};
+DTrain  = DBins{1};
+LTrain  = LBins{1};
 
 %% Modify the X Matrices so that a bias is added
 %  Note that the bias must be the last feature for the plot code to work
@@ -50,9 +50,9 @@ XTest = [XTest ones( length(XTest),1)];
 %  Note: You need to modify trainMultiLayer() and runMultiLayer()
 %  in order to train the network
 
-numHidden     = 25;     % Change this, number of hidden neurons 
+numHidden     = 12;     % Change this, number of hidden neurons 
 numIterations = 40000;   % Change this, number of iterations (epochs)
-learningRate  = 0.0001; % Change this, your learning rate
+learningRate  = 0.001; % Change this, your learning rate
 W0 = randn(size(XTrain,2), numHidden); % Initialize your weight matrix W
 V0 = randn(numHidden, size(DTrain,2)); % Initialize your weight matrix V
 
