@@ -60,9 +60,32 @@ nbrTestImages = length(yTest);
 
 %% Implement the AdaBoost training here
 %  Use your implementation of WeakClassifier and WeakClassifierError
+d = ones(1,nbrWeakClassifiers)/nbrWeakClassifiers;
+T = nbrWeakClassifiers; 
 
+for t = 1:T
+    err = inf;
+    
+    for k = 1:size(xTrain,1)
+        thresh = xTrain(k,:) + 1e-5; 
+        
+        for i = thresh
+            P = 1; % i think?
+            C = WeakClassifier(thresh, P, xTrain); % kolla hur många feats (thresh)
+            E = WeakClassifierError(C, d, yTrain);
+            if E > 0.5
+                P = -1;
+                E = 1-E;
+            end
+            
+            if E < err
+                err = E;
+            end
+        end
+        
 
-
+    end
+end
 %% Evaluate your strong classifier here
 %  Evaluate on both the training data and test data, but only the test
 %  accuracy can be used as a performance metric since the training accuracy
