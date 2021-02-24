@@ -10,7 +10,7 @@ function C = WeakClassifier(T, P, X)
 % with a reasonable amount of Haar features and training images.
 
 C = ones(size(X));
-C(P.*X < P.*T) = -1; 
+C(P*X < P*T) = -1; 
 
 end
 
