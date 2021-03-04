@@ -7,11 +7,11 @@ clc
 setupQlearning
 
 % PARAMS:
-WORLD = 4;
-MAX_EPISODES = 1000;
+WORLD = 3;
+MAX_EPISODES = 2000;
 GAMMA = 0.9;
-LEARN_RATE = 0.3;
-EPSILON = 0.8;
+LEARN_RATE = 0.2;
+epsilon = 0.9;
 
 % init world
 s = gwinit(WORLD); 
@@ -34,7 +34,7 @@ for episode = 1:MAX_EPISODES
     s = gwinit(WORLD);
     
     while ~s.isterminal
-        [a, ~] = chooseaction(Q, s.pos(1), s.pos(2), [1 2 3 4], 0.25*[1 1 1 1], EPSILON);
+        [a, ~] = chooseaction(Q, s.pos(1), s.pos(2), [1 2 3 4], 0.25*[1 1 1 1], epsilon);
         s_1 = gwaction(a);
         
         if s_1.isvalid
@@ -48,6 +48,9 @@ for episode = 1:MAX_EPISODES
             Q(s.pos(1),s.pos(2),a) = -inf;
         end
     end
+    
+    % less exploration over time
+    epsilon = epsilon*0.999;
 end
 %% visualize Q, P and V
 figure(1)
@@ -84,8 +87,8 @@ while ~s.isterminal
     a = P(s.pos(1),s.pos(2));
     s = gwaction(a);
     figure(7)
-    gwdraw()
-    pause(0.5)
+    gwdraw("Policy",P)
+    pause(0.1)
 end
 
 
