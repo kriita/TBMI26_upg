@@ -7,10 +7,10 @@ clc
 setupQlearning
 
 % PARAMS:
-WORLD = 3;
+WORLD = 4;
 MAX_EPISODES = 2000;
-GAMMA = 0.9;
-LEARN_RATE = 0.2;
+GAMMA = 0.6;
+LEARN_RATE = 0.1;
 epsilon = 0.9;
 
 % init world
@@ -18,7 +18,11 @@ s = gwinit(WORLD);
 
 % init Q:
 % cols for each state, row for each action
-Q = zeros(s.ysize,s.xsize,4); 
+Q = zeros(s.ysize,s.xsize,4);
+Q(1,:,2) = -inf;
+Q(:,1,4) = -inf;
+Q(s.ysize,:,1) = -inf;
+Q(:,s.xsize,3) = -inf;
 
 % gwaction directions
 %   2
@@ -45,7 +49,7 @@ for episode = 1:MAX_EPISODES
             s = s_1;
         else
             % set Q for that state&action to -inf for invalid moves
-            Q(s.pos(1),s.pos(2),a) = -inf;
+            Q(s.pos(1),s.pos(2),a) = -99;
         end
     end
     
@@ -53,27 +57,29 @@ for episode = 1:MAX_EPISODES
     epsilon = epsilon*0.999;
 end
 %% visualize Q, P and V
-figure(1)
-imagesc(Q(:,:,1))
-
-figure(2)
-imagesc(Q(:,:,2))
-
-figure(3)
-imagesc(Q(:,:,3))
-
-figure(4)
-imagesc(Q(:,:,4))
-
+% figure(1)
+% imagesc(Q(:,:,1))
+% 
+% figure(2)
+% imagesc(Q(:,:,2))
+% 
+% figure(3)
+% imagesc(Q(:,:,3))
+% 
+% figure(4)
+% imagesc(Q(:,:,4))
+% 
 figure(5)
 V = getvalue(Q);
 imagesc(V)
 
 figure(6)
+hold on;
 P = getpolicy(Q);
 gwinit(WORLD)
 gwdraw()
 gwdrawpolicy(P)
+hold off;
 
 %% Test loop
 %  Test the agent (subjectively) by letting it use the optimal policy
@@ -88,10 +94,5 @@ while ~s.isterminal
     s = gwaction(a);
     figure(7)
     gwdraw("Policy",P)
-    pause(0.1)
+    pause(0.01)
 end
-
-
-
-
-
