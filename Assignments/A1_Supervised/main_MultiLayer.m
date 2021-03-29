@@ -1,5 +1,5 @@
 %% This script will help you test your multi-layer neural network code
-close all; clear all; clc;
+close all; clear; clc;
 run setupSupervisedLab.m;
 %% Select which data to use:
 
@@ -8,7 +8,7 @@ run setupSupervisedLab.m;
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 3; % Change this to load new data 
+dataSetNr = 4; % Change this to load new data 
 
 % X - Data samples
 % D - Desired output from classifier for each sample
@@ -17,7 +17,7 @@ dataSetNr = 3; % Change this to load new data
 
 %% Select a subset of the training features
 
-numBins = 100;                    % Number of Bins you want to devide your data into
+numBins = 4;                    % Number of Bins you want to devide your data into
 numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true;          % true = select features at random, false = select the first features
 
@@ -30,12 +30,12 @@ selectAtRandom = true;          % true = select features at random, false = sele
 % XBinComb = combineBins(XBins, [1,2,3]);
 
 % Add your own code to setup data for training and test here
-XTest = combineBins(XBins, 2:numBins);
-DTest = combineBins(DBins, 2:numBins);
-LTest = combineBins(LBins, 2:numBins);
-XTrain  = XBins{1};
-DTrain  = DBins{1};
-LTrain  = LBins{1};
+XTest = combineBins(XBins, 4:numBins);
+DTest = combineBins(DBins, 4:numBins);
+LTest = combineBins(LBins, 4:numBins);
+XTrain  = combineBins(XBins, 1:3);
+DTrain  = combineBins(DBins, 1:3);
+LTrain  = combineBins(LBins, 1:3);
 
 %% Modify the X Matrices so that a bias is added
 %  Note that the bias must be the last feature for the plot code to work
@@ -50,11 +50,11 @@ XTest = [XTest ones( length(XTest),1)];
 %  Note: You need to modify trainMultiLayer() and runMultiLayer()
 %  in order to train the network
 
-numHidden     = 12;     % Change this, number of hidden neurons 
+numHidden     = 80;     % Change this, number of hidden neurons 
 numIterations = 40000;   % Change this, number of iterations (epochs)
 learningRate  = 0.001; % Change this, your learning rate
-W0 = randn(size(XTrain,2), numHidden); % Initialize your weight matrix W
-V0 = randn(numHidden, size(DTrain,2)); % Initialize your weight matrix V
+W0 = randn(size(XTrain,2), numHidden + 1); % Initialize your weight matrix W
+V0 = randn(numHidden + 1, size(DTrain,2)); % Initialize your weight matrix V
 
 % Run training loop
 tic;
@@ -89,7 +89,7 @@ tic;
 [~, LPredTest ] = runMultiLayer(XTest , W, V);
 classificationTime = toc/(length(XTest) + length(XTrain));
 
-% The confucionMatrix
+% The confusion matrix
 cM = calcConfusionMatrix(LPredTest, LTest)
 
 % The accuracy
