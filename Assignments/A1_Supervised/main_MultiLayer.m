@@ -50,11 +50,11 @@ XTest = [XTest ones( length(XTest),1)];
 %  Note: You need to modify trainMultiLayer() and runMultiLayer()
 %  in order to train the network
 
-numHidden     = 80;     % Change this, number of hidden neurons 
-numIterations = 40000;   % Change this, number of iterations (epochs)
-learningRate  = 0.001; % Change this, your learning rate
-W0 = randn(size(XTrain,2), numHidden + 1); % Initialize your weight matrix W
-V0 = randn(numHidden + 1, size(DTrain,2)); % Initialize your weight matrix V
+numHidden     = 100;     % Change this, number of hidden neurons 
+numIterations = 10000;   % Change this, number of iterations (epochs)
+learningRate  = 0.01; % Change this, your learning rate
+W0 = randn(size(XTrain,2), numHidden)/100; % Initialize your weight matrix W
+V0 = randn(numHidden+1, size(DTrain,2))/100; % Initialize your weight matrix V
 
 % Run training loop
 tic;
